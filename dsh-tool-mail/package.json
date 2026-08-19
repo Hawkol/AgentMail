@@ -6,12 +6,19 @@
   "main": "src/index.js",
   "exports": {
     ".": "./src/index.js",
+    "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
   "files": [
-    "src"
+    "src",
+    "cordis.patch.yml"
   ],
   "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
   "peerDependencies": {
     "@deepseek-ai/cordis": "*",
     "@deepseek-ai/dsh-tools": "*"

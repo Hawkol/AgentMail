@@ -30,11 +30,15 @@ export async function sendMail(runJs, to, subject, body, signal) {
   try {
     out = await cli(runJs, base, signal)
   } catch (e) {
-    return { ok: false, error: String(e.message || e).slice(0, 300) }
+    return { ok: false, error: detail(e) }
   }
   const token = out?.data?.confirmation_token
   if (token) {
-    out = await cli(runJs, [...base, '--confirmation-token', token], signal)
+    try {
+      out = await cli(runJs, [...base, '--confirmation-token', token], signal)
+    } catch (e) {
+      return { ok: false, error: detail(e) }
+    }
     if (out?.data?.queued) return { ok: true, to, subject }
     return { ok: false, error: '确认后仍未入队: ' + JSON.stringify(out).slice(0, 200) }
   }
@@ -42,6 +46,12 @@ export async function sendMail(runJs, to, subject, body, signal) {
     return { ok: true, to, subject }
   }
   return { ok: false, error: JSON.stringify(out).slice(0, 300) }
+}
+
+/** 提取 CLI 错误的可读信息（含服务端返回的 JSON 详情） */
+function detail(e) {
+  const stdout = e?.stdout ? String(e.stdout).trim().slice(0, 400) : ''
+  return (stdout || String(e?.message || e)).slice(0, 400)
 }
 
 /** 列出收件箱（返回精简文本） */
