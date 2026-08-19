@@ -29,7 +29,10 @@ export function apply(ctx, config) {
       subject: { type: 'string', description: '邮件主题' },
       body: { type: 'string', description: '邮件正文（纯文本，支持换行）' },
     },
-    output: { schema: { type: 'string' } },
+    output: {
+      schema: { type: 'string' },
+      render: (_args, value) => [{ type: 'text', text: String(value) }],
+    },
     async execute(args, exec) {
       const r = await sendMail(runJs, args.to, args.subject || '（无主题）', args.body || '', exec.signal)
       return r.ok ? `✅ 邮件已发送至 ${r.to}（主题：${r.subject}）` : `❌ 发送失败：${r.error}`
@@ -42,7 +45,10 @@ export function apply(ctx, config) {
     parameters: {
       limit: { type: 'number', description: '最多列出的邮件数，默认 10' },
     },
-    output: { schema: { type: 'string' } },
+    output: {
+      schema: { type: 'string' },
+      render: (_args, value) => [{ type: 'text', text: String(value) }],
+    },
     async execute(args, exec) {
       try {
         return await listMails(runJs, args.limit || 10, exec.signal)
@@ -58,7 +64,10 @@ export function apply(ctx, config) {
     parameters: {
       id: { type: 'string', required: true, description: '邮件 ID（message_id）' },
     },
-    output: { schema: { type: 'string' } },
+    output: {
+      schema: { type: 'string' },
+      render: (_args, value) => [{ type: 'text', text: String(value) }],
+    },
     async execute(args, exec) {
       try {
         return await readMail(runJs, args.id, exec.signal)
@@ -75,7 +84,10 @@ export function apply(ctx, config) {
       id: { type: 'string', required: true, description: '要回复的邮件 ID' },
       body: { type: 'string', required: true, description: '回复正文' },
     },
-    output: { schema: { type: 'string' } },
+    output: {
+      schema: { type: 'string' },
+      render: (_args, value) => [{ type: 'text', text: String(value) }],
+    },
     async execute(args, exec) {
       const r = await replyMail(runJs, args.id, args.body, exec.signal)
       return r.ok ? `✅ 回复已发送至 ${r.to}（主题：${r.subject}）` : `❌ 回复失败：${r.error}`
