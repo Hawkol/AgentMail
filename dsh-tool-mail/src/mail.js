@@ -79,6 +79,33 @@ export async function replyMail(runJs, id, body, signal) {
   return sendMail(runJs, from, subject, body, signal)
 }
 
+/** 通用两步确认调用（send/trash 等需要 confirmation 的命令） */
+async function confirm(runJs, args, signal) {
+  let out = await cli(runJs, args, signal)
+  const token = out?.data?.confirmation_token
+  if (token) {
+    out = await cli(runJs, [...args, '--confirmation-token', token], signal)
+  }
+  return out
+}
+
+/**
+ * 删除邮件：默认移入回收站（软删，30 天可恢复）；permanent=true 时永久删除（不可恢复）。
+ */
+export async function deleteMail(runJs, id, permanent, signal) {
+  try {
+    let out = await confirm(runJs, ['message', '+trash', '--id', id], signal)
+    if (!out?.ok) return { ok: false, error: JSON.stringify(out).slice(0, 200) }
+    if (permanent) {
+      out = await confirm(runJs, ['message', '+delete', '--id', id], signal)
+      if (!out?.ok) return { ok: false, error: JSON.stringify(out).slice(0, 200) }
+    }
+    return { ok: true, permanent: !!permanent }
+  } catch (e) {
+    return { ok: false, error: detail(e) }
+  }
+}
+
 /** HTML → 纯文本 */
 function stripHtml(html) {
   return String(html || '')

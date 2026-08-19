@@ -10,7 +10,7 @@
 // 导出约定：name / inject / apply，无 default 导出（勿添加 export default）
 // ============================================================
 import { defineTool } from '@deepseek-ai/dsh-tools'
-import { defaultRunJs, sendMail, listMails, readMail, replyMail } from './mail.js'
+import { defaultRunJs, sendMail, listMails, readMail, replyMail, deleteMail } from './mail.js'
 
 export const name = 'tool-mail'
 export const inject = ['tools']
@@ -91,6 +91,27 @@ export function apply(ctx, config) {
     async execute(args, exec) {
       const r = await replyMail(runJs, args.id, args.body, exec.signal)
       return r.ok ? `✅ 回复已发送至 ${r.to}（主题：${r.subject}）` : `❌ 回复失败：${r.error}`
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'mail_delete',
+    description:
+      '删除邮件：默认移入回收站（软删，30 天内可从回收站恢复）；permanent=true 时永久删除（不可恢复）。'
+      + '用 mail_list 获取邮件 ID。清理收件箱时逐封调用即可。',
+    parameters: {
+      id: { type: 'string', required: true, description: '要删除的邮件 ID' },
+      permanent: { type: 'boolean', description: '是否永久删除（默认 false，仅移入回收站）' },
+    },
+    output: {
+      schema: { type: 'string' },
+      render: (_args, value) => [{ type: 'text', text: String(value) }],
+    },
+    async execute(args, exec) {
+      const r = await deleteMail(runJs, args.id, !!args.permanent, exec.signal)
+      return r.ok
+        ? (r.permanent ? `✅ 已永久删除邮件 ${args.id}` : `✅ 已将邮件 ${args.id} 移入回收站`)
+        : `❌ 删除失败：${r.error}`
     },
   }))
 }
