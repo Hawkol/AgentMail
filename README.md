@@ -39,7 +39,6 @@ E:\AgentMail\
 ├─ docs/
 │  └─ USAGE.md          # 详细使用说明
 ├─ cli-setup.md         # 官方 CLI 文档
-├─ archive/             # 废弃的 PowerShell 脚本（被 server.js 取代）
 └─ 运行数据（不入库）:
    ├─ inbox/            # 收到的邮件（JSON，含纯文本正文）
    ├─ outbox/           # AI 生成的待发送回复（sent/ failed/）
@@ -130,8 +129,8 @@ schtasks /run /tn "DSH-Mail-Server"
 
 ## 版本记录
 
-- `af37ab4` 独立部署（从游戏工作区剥离）
-- `21eddc4` config.json 移出版本库（含 webToken 凭据）
-- `e9c4426` 修复 config.example.json 编码
+- **2026-08** 项目独立部署（Node 常驻服务 + Web 控制台 + 邮件处理闭环）
+- **2026-08** dsh-tool-mail 插件开发完成（7 个工具）并**发布到 npm**
+- **2026-08** 文档完善（FEATURES / USAGE / 部署指南）
 
 详细使用说明见 [docs/USAGE.md](docs/USAGE.md)。
