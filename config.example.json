@@ -1,0 +1,17 @@
+{
+  "targetEmail": "you@example.com",
+  "allowedSenders": [
+    "you@example.com",
+    "your-agent@agent.qq.com"
+  ],
+  "pollIntervalMin": 2,
+  "autoProcess": true,
+  "webToken": "<首次启动自动生成>",
+  "inboxDir": "E:\\AgentMail\\inbox",
+  "outboxDir": "E:\\AgentMail\\outbox",
+  "seenFile": "E:\\AgentMail\\seen.log",
+  "triggeredFile": "E:\\AgentMail\\triggered.log",
+  "logDir": "E:\\AgentMail\\logs",
+  "cli": "agently-cli",
+  "dshCli": "E:\\DeepSeekHarness\\deepseek-harness\\apps\\cli\\lib\\bin.js"
+}

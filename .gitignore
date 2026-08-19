@@ -1,0 +1,20 @@
+# ============================================================
+# Agent Mail 独立部署
+# ============================================================
+
+# 运行数据（含邮件内容，严禁入库）
+inbox/
+outbox/
+logs/
+notifications/
+seen.log
+triggered.log
+
+# 临时/敏感文件
+*.txt
+diag-*.ps1
+
+# 其他
+node_modules/
+.vscode/
+config.json
