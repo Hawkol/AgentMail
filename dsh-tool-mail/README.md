@@ -53,21 +53,7 @@ dsh plugin --profile web add @hawkonline/dsh-tool-mail
       config:
         cliRunJs: "C:\\path\\to\\agently-cli\\scripts\\run.js"   # 默认自动发现
 ```
-
-## 发布到 npm
-
-```bash
-# 1. 登录 npm
-npm login
-
-# 2. 发布
-npm publish
-
-# 之后其他用户安装：
-dsh plugin --profile web add @hawkonline/dsh-tool-mail
-```
-
-> 未发布的替代方案：GitHub Packages（`.npmrc` 配 `@hawkol:registry=https://npm.pkg.github.com/`）。
+> 📦 已发布到 npm：[`@hawkonline/dsh-tool-mail`](https://www.npmjs.com/package/@hawkonline/dsh-tool-mail)
 
 ## 安全说明
 
