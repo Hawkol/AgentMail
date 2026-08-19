@@ -31,5 +31,9 @@
     "mail",
     "agent-mail",
     "agently-cli"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }
