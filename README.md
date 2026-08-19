@@ -49,6 +49,27 @@ E:\AgentMail\
    └─ triggered.log     # 已触发 AI 处理的邮件 ID
 ```
 
+## 在其他电脑使用（5 分钟）
+
+> 每台电脑需要**各自的授权**（插件不携带凭据，安全设计）。流程：
+
+```bash
+# 1. 安装 Agent Mail CLI
+npm install -g @tencent-qqmail/agently-cli
+
+# 2. 授权（浏览器完成，凭据存本机）
+agently-cli auth login
+
+# 3. 安装插件到 DSH profile（关键：装进 profile 才会被加载）
+dsh plugin --profile web add @hawkonline/dsh-tool-mail
+
+# 4. 重启 DSH GUI
+# 5. 对话里直接说："发封邮件给 xxx" / "看下收件箱" 即可
+```
+
+> 💡 想用完整服务（自动回信/通知/控制台）：把本项目拷到目标电脑（`E:\AgentMail`），按下方"快速开始"跑 `setup.ps1` + 启动服务。
+> 离线安装：用 `npm pack` 打好的 `hawkol-dsh-tool-mail-*.tgz`，`dsh plugin add ./xxx.tgz`。
+
 ## 快速开始（首次部署，一次性）
 
 ```powershell
