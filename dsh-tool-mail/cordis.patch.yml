@@ -1,6 +1,7 @@
 # dsh-tool-mail bundle patch: 把 mail 工具加载进 profile
-- id: tool-mail
-  name: '@hawkol/dsh-tool-mail'
-  # 可选配置：
-  # config:
-  #   cliRunJs: 'C:\path\to\agently-cli\scripts\run.js'  # 默认自动发现
+- insert:
+    - id: tool-mail
+      name: '@hawkol/dsh-tool-mail'
+      # 可选配置：
+      # config:
+      #   cliRunJs: 'C:\path\to\agently-cli\scripts\run.js'  # 默认自动发现
