@@ -55,6 +55,13 @@ schtasks /run /tn "DSH-Mail-Server"
 | 开机自启 | 已注册（登录时自动启动，任务计划程序可查看/禁用）|
 | 查看状态 | 控制台或 `E:\AgentMail\logs\server.log` |
 
+### 启动机制（start-server.vbs 的作用）
+
+计划任务 `DSH-Mail-Server` 在**登录时**调用 `start-server.vbs`，它用 `WScript.Shell.Run(..., 0, False)` 以**隐藏窗口**方式静默启动 `server.js`（轮询 + Web 控制台服务），开机全程无弹窗。
+
+- 该文件仅 5 行，**必须保持纯 ASCII**（VBScript 引擎按 ANSI 读取，含中文注释会导致 `800A0408 无效字符` 弹窗）
+- 验证服务是否运行：`Get-NetTCPConnection -LocalPort 3180 -State Listen`
+
 ## 邮件处理闭环流程
 
 ```
