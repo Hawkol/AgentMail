@@ -1,6 +1,20 @@
 # 📬 Agent Mail — AI 专属邮箱服务
 
+[![npm version](https://img.shields.io/npm/v/@hawkonline/dsh-tool-mail)](https://www.npmjs.com/package/@hawkonline/dsh-tool-mail)
+[![npm downloads](https://img.shields.io/npm/dm/@hawkonline/dsh-tool-mail)](https://www.npmjs.com/package/@hawkonline/dsh-tool-mail)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 基于腾讯 **Agent Mail**（`@tencent-qqmail/agently-cli`）的 AI 邮件服务，独立部署。
+
+## 🚀 快速安装插件（DSH 用户）
+
+```bash
+dsh plugin --profile web add @hawkonline/dsh-tool-mail
+# 或
+npm install -g @hawkonline/dsh-tool-mail
+```
+
+> 插件：对话中直接收发邮件（7 个工具）｜ 详细见 [dsh-tool-mail/README.md](dsh-tool-mail/README.md)
 
 ## 它能做什么
 

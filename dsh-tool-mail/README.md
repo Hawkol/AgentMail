@@ -1,5 +1,9 @@
 # 📧 dsh-tool-mail
 
+[![npm version](https://img.shields.io/npm/v/@hawkonline/dsh-tool-mail)](https://www.npmjs.com/package/@hawkonline/dsh-tool-mail)
+[![npm downloads](https://img.shields.io/npm/dm/@hawkonline/dsh-tool-mail)](https://www.npmjs.com/package/@hawkonline/dsh-tool-mail)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 DeepSeek Harness 邮件工具插件 —— 基于腾讯 **Agent Mail**（`@tencent-qqmail/agently-cli`）。
 
 给智能体注册 **7 个工具**，运行在 DSH **host 进程**内（有网络，无沙箱限制）：
@@ -27,7 +31,7 @@ DeepSeek Harness 邮件工具插件 —— 基于腾讯 **Agent Mail**（`@tence
 # 本地开发（file: 安装后改代码需重启 GUI 生效）
 dsh plugin --profile web add ./dsh-tool-mail
 # 或从 npm 安装
-dsh plugin --profile web add @hawkol/dsh-tool-mail
+dsh plugin --profile web add @hawkonline/dsh-tool-mail
 ```
 
 安装后**重启 GUI**，然后在对话中直接说需求即可，例如：
@@ -36,7 +40,7 @@ dsh plugin --profile web add @hawkol/dsh-tool-mail
 - "把邮件 msg_xxx 转发给 xxx@qq.com"
 
 > 若插件未自动激活（profile 未识别 dsh.bundle），手动加入 bundles：
-> 编辑 `~/.dsh/profiles/<name>/package.json` 的 `dsh.profile.bundles`，追加 `"@hawkol/dsh-tool-mail"`。
+> 编辑 `~/.dsh/profiles/<name>/package.json` 的 `dsh.profile.bundles`，追加 `"@hawkonline/dsh-tool-mail"`。
 
 ## 配置（可选）
 
@@ -45,7 +49,7 @@ dsh plugin --profile web add @hawkol/dsh-tool-mail
 ```yaml
 - insert:
     - id: tool-mail
-      name: '@hawkol/dsh-tool-mail'
+      name: '@hawkonline/dsh-tool-mail'
       config:
         cliRunJs: "C:\\path\\to\\agently-cli\\scripts\\run.js"   # 默认自动发现
 ```
@@ -60,7 +64,7 @@ npm login
 npm publish
 
 # 之后其他用户安装：
-dsh plugin --profile web add @hawkol/dsh-tool-mail
+dsh plugin --profile web add @hawkonline/dsh-tool-mail
 ```
 
 > 未发布的替代方案：GitHub Packages（`.npmrc` 配 `@hawkol:registry=https://npm.pkg.github.com/`）。

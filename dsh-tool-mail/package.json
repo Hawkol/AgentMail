@@ -1,5 +1,5 @@
 {
-  "name": "@hawkol/dsh-tool-mail",
+  "name": "@hawkonline/dsh-tool-mail",
   "description": "Model-facing mail tools (send / list / read / reply) over Tencent Agent Mail for DeepSeek Harness",
   "version": "0.1.0",
   "type": "module",
