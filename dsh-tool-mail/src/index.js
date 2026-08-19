@@ -10,7 +10,7 @@
 // 导出约定：name / inject / apply，无 default 导出（勿添加 export default）
 // ============================================================
 import { defineTool } from '@deepseek-ai/dsh-tools'
-import { defaultRunJs, sendMail, listMails, readMail, replyMail, deleteMail } from './mail.js'
+import { defaultRunJs, sendMail, listMails, searchMails, readMail, replyMail, forwardMail, deleteMail } from './mail.js'
 
 export const name = 'tool-mail'
 export const inject = ['tools']
@@ -112,6 +112,48 @@ export function apply(ctx, config) {
       return r.ok
         ? (r.permanent ? `✅ 已永久删除邮件 ${args.id}` : `✅ 已将邮件 ${args.id} 移入回收站`)
         : `❌ 删除失败：${r.error}`
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'mail_search',
+    description:
+      '按关键词搜索邮件（默认搜索主题+正文）。可指定发件人（from）或文件夹（dir: inbox/sent/trash/spam）过滤。'
+      + '返回匹配邮件列表（时间/发件人/主题/ID）。',
+    parameters: {
+      q: { type: 'string', required: true, description: '搜索关键词' },
+      from: { type: 'string', description: '按发件人邮箱过滤' },
+      dir: { type: 'string', description: '文件夹：inbox / sent / trash / spam，默认收件箱' },
+    },
+    output: {
+      schema: { type: 'string' },
+      render: (_args, value) => [{ type: 'text', text: String(value) }],
+    },
+    async execute(args, exec) {
+      try {
+        return await searchMails(runJs, args.q, args.from || '', args.dir || '', exec.signal)
+      } catch (e) {
+        return '❌ 搜索失败：' + String(e.message || e).slice(0, 300)
+      }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'mail_forward',
+    description:
+      '转发指定邮件给新收件人（自动两步确认）。可附备注文字。用 mail_list / mail_search 获取邮件 ID。',
+    parameters: {
+      id: { type: 'string', required: true, description: '要转发的邮件 ID' },
+      to: { type: 'string', required: true, description: '新收件人邮箱地址' },
+      body: { type: 'string', description: '可选备注内容' },
+    },
+    output: {
+      schema: { type: 'string' },
+      render: (_args, value) => [{ type: 'text', text: String(value) }],
+    },
+    async execute(args, exec) {
+      const r = await forwardMail(runJs, args.id, args.to, args.body || '', exec.signal)
+      return r.ok ? `✅ 已转发邮件 ${args.id} 至 ${r.to}` : `❌ 转发失败：${r.error}`
     },
   }))
 }

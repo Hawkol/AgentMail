@@ -62,6 +62,17 @@ export async function listMails(runJs, limit, signal) {
   return items.map((m) => `- [${m.created_at}] ${m.from?.email || '未知发件人'} | ${m.subject} | ${m.message_id}`).join('\n')
 }
 
+/** 搜索邮件（关键词默认搜主题+正文，可按发件人/文件夹过滤） */
+export async function searchMails(runJs, q, from, dir, signal) {
+  const args = ['message', '+search', '--q', q]
+  if (from) args.push('--from', from)
+  if (dir) args.push('--dir', dir)
+  const out = await cli(runJs, args, signal)
+  const items = out?.data?.data || []
+  if (items.length === 0) return '（无匹配邮件）'
+  return items.map((m) => `- [${m.created_at}] ${m.from?.email || '未知发件人'} | ${m.subject} | ${m.message_id}`).join('\n')
+}
+
 /** 读取邮件正文（HTML 转纯文本） */
 export async function readMail(runJs, id, signal) {
   const out = await cli(runJs, ['message', '+read', '--id', id], signal)
@@ -77,6 +88,20 @@ export async function replyMail(runJs, id, body, signal) {
   if (!from) return { ok: false, error: '无法确定原邮件发件人' }
   const subject = '回复：' + String(out?.data?.subject || '')
   return sendMail(runJs, from, subject, body, signal)
+}
+
+/** 转发邮件给新收件人（含两步确认，可附备注） */
+export async function forwardMail(runJs, id, to, body, signal) {
+  const args = ['message', '+forward', '--id', id, '--to', to]
+  if (body) args.push('--body', body)
+  try {
+    const out = await confirm(runJs, args, signal)
+    if (out?.data?.queued) return { ok: true, to }
+    if (out?.ok && !out?.data?.confirmation_required) return { ok: true, to }
+    return { ok: false, error: JSON.stringify(out).slice(0, 200) }
+  } catch (e) {
+    return { ok: false, error: detail(e) }
+  }
 }
 
 /** 通用两步确认调用（send/trash 等需要 confirmation 的命令） */
