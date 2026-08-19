@@ -18,3 +18,5 @@ diag-*.ps1
 node_modules/
 .vscode/
 config.json
+node_modules/
+*.tgz

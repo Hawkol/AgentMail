@@ -1,0 +1,28 @@
+{
+  "name": "@hawkol/dsh-tool-mail",
+  "description": "Model-facing mail tools (send / list / read / reply) over Tencent Agent Mail for DeepSeek Harness",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-tools": "*"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "plugin",
+    "tool",
+    "mail",
+    "agent-mail",
+    "agently-cli"
+  ]
+}
