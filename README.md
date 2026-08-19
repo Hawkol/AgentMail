@@ -1,6 +1,6 @@
 # 📬 Agent Mail — AI 专属邮箱服务
 
-基于腾讯 **Agent Mail**（`@tencent-qqmail/agently-cli`）的 AI 邮件服务，独立部署，与游戏项目完全分离。
+基于腾讯 **Agent Mail**（`@tencent-qqmail/agently-cli`）的 AI 邮件服务，独立部署。
 
 ## 它能做什么
 
